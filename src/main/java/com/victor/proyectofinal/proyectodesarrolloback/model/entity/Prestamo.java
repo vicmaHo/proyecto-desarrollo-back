@@ -1,4 +1,4 @@
-package com.victor.proyectofinal.proyectodesarrolloback.entity;
+package com.victor.proyectofinal.proyectodesarrolloback.model.entity;
 
 import java.time.LocalDateTime;
 
