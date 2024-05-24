@@ -1,6 +1,6 @@
 package com.victor.proyectofinal.proyectodesarrolloback.model.entity;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -31,8 +31,7 @@ public class Libro {
 	@Column(length = 60, nullable = false)
 	private String autor;
 		
-	@Column(columnDefinition = "TIMESTAMP")
-	private LocalDateTime fechaPublicacion;
+	private LocalDate fechaPublicacion;
 
 	private int numeroPaginas;
 	
@@ -42,10 +41,10 @@ public class Libro {
 	@Column(length = 160)
 	private String descripcion;
 	
-	//@Column(nullable = false)
+	@Column(nullable = true)
 	private int copiasTotales;
 	
-    //@Column(nullable = false)
-	private int copiasDisponbiles;
+    @Column(nullable = true)
+	private int copiasDisponibles;
 	
 }

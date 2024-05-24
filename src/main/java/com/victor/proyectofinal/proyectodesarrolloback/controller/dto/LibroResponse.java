@@ -1,6 +1,6 @@
 package com.victor.proyectofinal.proyectodesarrolloback.controller.dto;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,7 +19,7 @@ public class LibroResponse {
 
 	private String autor;
 		
-	private LocalDateTime fechaPublicacion;
+	private LocalDate fechaPublicacion;
 
 	private int numeroPaginas;
 	
@@ -29,5 +29,5 @@ public class LibroResponse {
 	
 	private int copiasTotales;
 
-	private int copiasDisponbiles;
+	private int copiasDisponibles;
 }
