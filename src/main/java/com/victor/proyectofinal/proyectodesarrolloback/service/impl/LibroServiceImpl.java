@@ -21,13 +21,13 @@ public class LibroServiceImpl implements LibroService{
 	}
 
 	@Override
-	public LibroResponse crear(LibroRequest nuevoUsuario) {
+	public LibroResponse crear(LibroRequest nuevoLibro) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public LibroResponse actualizar(LibroRequest usuario, int id) {
+	public LibroResponse actualizar(LibroRequest libro, int id) {
 		// TODO Auto-generated method stub
 		return null;
 	}

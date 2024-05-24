@@ -1,12 +1,14 @@
 package com.victor.proyectofinal.proyectodesarrolloback.service.impl;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import com.victor.proyectofinal.proyectodesarrolloback.controller.dto.ClienteRequest;
 import com.victor.proyectofinal.proyectodesarrolloback.controller.dto.ClienteResponse;
+import com.victor.proyectofinal.proyectodesarrolloback.model.entity.Cliente;
 import com.victor.proyectofinal.proyectodesarrolloback.model.repository.ClienteRepository;
 import com.victor.proyectofinal.proyectodesarrolloback.service.ClienteService;
 
@@ -22,30 +24,59 @@ public class ClienteServiceImpl implements ClienteService {
 	@Override
 	public List<ClienteResponse> obtenerTodos() {
 		
-		return null;
+		List<ClienteResponse> listaClientes = repository.findAll()
+				.stream()
+				.map(cliente -> modelMapper.map(cliente, ClienteResponse.class))
+				.collect(Collectors.toList());
+		
+		return listaClientes;
 	}
+
 
 	@Override
 	public ClienteResponse obtenerPorId(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		if (id == 0) {
+			throw new IllegalArgumentException("Mensaje 1, 0 no es valido");
+		}
+		
+		var cliente = repository.findById(id)
+				.map((element) -> modelMapper.map(element, ClienteResponse.class))
+				.orElseThrow(() -> new IllegalArgumentException("Mensaje 2, no existe: " + id));
+	
+		return cliente;
 	}
+
 
 	@Override
-	public ClienteResponse crear(ClienteRequest nuevoUsuario) {
-		// TODO Auto-generated method stub
-		return null;
+	public ClienteResponse crear(ClienteRequest nuevoCliente) {
+		
+		Cliente cliente = repository.save(modelMapper.map(nuevoCliente, Cliente.class));
+		
+		return modelMapper.map(cliente, ClienteResponse.class);
 	}
+
 
 	@Override
-	public ClienteResponse actualizar(ClienteRequest usuario, int id) {
-		// TODO Auto-generated method stub
-		return null;
+	public ClienteResponse actualizar(ClienteRequest cliente, int id) {
+		
+		Cliente oldCliente = repository.findById(id).get();
+		
+		oldCliente.setIdentificacion(cliente.getIdentificacion());
+		oldCliente.setNombreCompleto(cliente.getNombreCompleto());
+		oldCliente.setCorreoElectronico(cliente.getCorreoElectronico());
+		oldCliente.setNumeroTelefono(cliente.getNumeroTelefono());
+			
+		Cliente nuevoCliente = repository.save(oldCliente);
+		
+		return modelMapper.map(nuevoCliente, ClienteResponse.class);
 	}
 
+	
 	@Override
 	public void eliminar(int id) {
-		// TODO Auto-generated method stub
+		
+		repository.deleteById(id);
 		
 	}
 

@@ -10,9 +10,9 @@ public interface LibroService {
 	
 	LibroResponse obtenerPorId(int id);
 	
-	LibroResponse crear(LibroRequest nuevoUsuario);
+	LibroResponse crear(LibroRequest nuevoLibro);
 	
-	LibroResponse actualizar(LibroRequest usuario, int id);
+	LibroResponse actualizar(LibroRequest libro, int id);
 	
 	void eliminar(int id);
 }
