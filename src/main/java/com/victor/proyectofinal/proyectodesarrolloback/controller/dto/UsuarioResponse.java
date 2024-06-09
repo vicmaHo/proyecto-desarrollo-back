@@ -11,11 +11,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UsuarioResponse {
 
-	private int id;
-	
-	private String userName;
 
-	private String password;
+	// se dara como respuesta un mensaje
+	private String message;
+	// private int id;
 	
-	private String rol;
+	// private String userName;
+
+	// private String password;
+	
+	// private String rol;
 }
