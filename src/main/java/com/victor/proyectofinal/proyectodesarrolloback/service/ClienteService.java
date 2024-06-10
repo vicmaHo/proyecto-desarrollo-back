@@ -23,6 +23,14 @@ public interface ClienteService {
 	ClienteResponse obtenerPorId(int id);
 	
 	/**
+	 * Hace uso del repository de clientes para obtener un cliente por su identificacion, posteriormente
+	 * este cliente se transforma en un cliente response y se devuelve al controlador
+	 * @param String identificacion de cliente a obtener
+	 * @return ClienteResponse
+	 */
+	ClienteResponse obtenerPorIdentificacion(String identificacion);
+	
+	/**
 	 * Hace uso del repository de clientes para crear un nuevo cliente en la base de datos, se recibe un ClienteRequest
 	 * este se mapea a un Cliente y se agrega a la base de datos
 	 * @param ClienteRequest Body json como payload

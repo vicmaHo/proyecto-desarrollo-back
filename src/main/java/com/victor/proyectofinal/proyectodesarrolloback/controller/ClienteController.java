@@ -51,6 +51,18 @@ public class ClienteController {
 	}
 	
 	/**
+	 * Cuando se hace una peticion get al endpoint especificado, y se manda una respectiva identificacion de cliente,
+	 * devuelve los datos del cliente que se encuentra por dicha identificacion
+	 * @param identificacion
+	 * @return ClienteResponse
+	 */
+	@GetMapping("/iden/{identificacion}")
+	public ClienteResponse obtenerPorIdentificacion(@PathVariable(name = "identificacion") String id) {
+		
+		return service.obtenerPorIdentificacion(id);
+	}
+	
+	/**
 	 * Cuando se hace una peticion post con un ClienteRequest como body, esta funcion lo recibe
 	 * y hace uso del service de cliente para crear el nuevo Cliente en la base de datos
 	 * @param ClienteRequest

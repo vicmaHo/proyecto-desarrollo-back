@@ -20,7 +20,7 @@ public class Cliente {
 	@GeneratedValue(strategy = GenerationType.IDENTITY) // valor autogenerado
 	private int id;
 	
-	@Column(length = 60, nullable = false) // indico restriccion de nulidad y tamaño de cadena
+	@Column(length = 60, nullable = false, unique = true) // indico restriccion de nulidad y tamaño de cadena
 	private String identificacion;
 	
 	@Column(length = 60, nullable = false)

@@ -46,6 +46,23 @@ public class ClienteServiceImpl implements ClienteService {
 	
 		return cliente;
 	}
+	
+	@Override
+	public ClienteResponse obtenerPorIdentificacion(String identificacion) {
+		
+		ClienteResponse cliente = repository.findByIdentificacion(identificacion)
+				.map((element) -> modelMapper.map(element, ClienteResponse.class))
+				.orElseThrow(() -> new IllegalArgumentException("mesaje de error, no encontrado"));
+		
+		if (cliente.equals(null)) {
+			throw new IllegalArgumentException("Mensaje, identificacion no encontrada");
+		}
+		
+		
+		
+		return cliente;
+		
+	}
 
 
 	@Override
