@@ -10,10 +10,12 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity // Indico que sera una entidad -> Tabla de base de datos
+@Builder
 @Data // Genero setters y getters
 @AllArgsConstructor // Genero constructor
 @NoArgsConstructor // Genero constructor vacio

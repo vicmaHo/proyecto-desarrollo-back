@@ -9,18 +9,25 @@ import com.victor.proyectofinal.proyectodesarrolloback.controller.dto.UsuarioRes
 //defino las funcioens/servicios de cada entidad
 public interface UsuarioService {
 
+	/**
+	 * Actualiza la informacion de un usuario
+	 * @param userRequest
+	 * return UsuarioResponse
+	 */
 	UsuarioResponse updateUser(UsuarioRequest userRequest);
 
+	/**
+	 * Obtiene un usuario por su id, haciendo uso del repository de usuario
+	 * @param id
+	 * return UsuarioDTO
+	 */
 	UsuarioDTO getUser(Integer id);
-		
-	List<UsuarioResponse> obtenerTodos();
 	
-	UsuarioResponse obtenerPorId(int id);
-	
-	UsuarioResponse crear(UsuarioRequest nuevoUsuario);
-	
-	UsuarioResponse actualizar(UsuarioRequest usuario, int id);
-	
+	/**
+	 * Elimina un usuario por su id, haciendo uso del repository de usuario
+	 * @param id
+	 * return void
+	 */
 	void eliminar(int id);
 	
 }
