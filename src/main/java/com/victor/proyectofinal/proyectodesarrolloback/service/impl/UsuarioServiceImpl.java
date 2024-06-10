@@ -6,6 +6,9 @@ import com.victor.proyectofinal.proyectodesarrolloback.controller.dto.UsuarioReq
 import com.victor.proyectofinal.proyectodesarrolloback.controller.dto.UsuarioResponse;
 import com.victor.proyectofinal.proyectodesarrolloback.service.UsuarioService;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.victor.proyectofinal.proyectodesarrolloback.model.entity.Usuario;
@@ -53,6 +56,26 @@ public class UsuarioServiceImpl implements UsuarioService {
 	public void eliminar(int id) {
 		
 		userRepository.deleteById(id);
+	}
+
+	@Override
+	public List<UsuarioDTO> obtenerTodos() {
+		
+		List<Usuario> listaUsuarios = userRepository.findAll();
+		List<UsuarioDTO> listaDtos = new ArrayList<>();
+		
+		for (Usuario usuario : listaUsuarios) {
+			
+			UsuarioDTO userResponse = UsuarioDTO.builder()
+					.id(usuario.getId())
+					.username(usuario.getUsername())
+					.rol(usuario.getRol().name())
+					.build();
+			
+			listaDtos.add(userResponse);
+		}
+		
+		return listaDtos;
 	}
 
 }

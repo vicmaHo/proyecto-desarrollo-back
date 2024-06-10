@@ -1,5 +1,7 @@
 package com.victor.proyectofinal.proyectodesarrolloback.controller;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,6 +26,18 @@ import lombok.RequiredArgsConstructor;
 public class UsuarioController {
 
     private final UsuarioService service;
+    
+    
+    /**
+     * Al realizar una peticion get al endpoint de la api, se retorna una lista 
+     * con todos los usuarios de la aplicacion
+     * @return List<UsuarioDTO>
+     */
+    @GetMapping
+    public List<UsuarioDTO> getAllUsers(){
+    	
+    	return service.obtenerTodos();
+    }
 
     /**
 	 * Cuando se hace una peticion get al endpoint especificado con un id en el path, se hace uso

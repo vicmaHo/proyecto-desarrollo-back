@@ -29,5 +29,12 @@ public interface UsuarioService {
 	 * return void
 	 */
 	void eliminar(int id);
+
+	/**
+	 * Retorna una lista de todos los usuarios de la aplicacion
+	 * @param id
+	 * return void
+	 */
+	List<UsuarioDTO> obtenerTodos();
 	
 }
