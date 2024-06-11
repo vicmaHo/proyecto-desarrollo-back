@@ -22,16 +22,41 @@ public class AuthController {
 
     private final AuthService authService;
 
+    
+    /**
+     * Funcion encargada de manejar las peticiones post a auth/login, con la finalidad de recibir una peticion de login
+     * en la aplicacion, hace uso del servicio de autenticación para procesar este login
+     * @param request
+     * @return AuthResponse
+     */
     @PostMapping(value = "login")
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest request) {
 
         return ResponseEntity.ok(authService.login(request));
     }
 
-    @PostMapping(value = "register")
+    /**
+     * Funcion encargada de manejar las peticiones post a auth/register/admin, con la finalidad de recibir el nuevo registro
+     * de un administrador en la aplicación, hace uso del servicio de autenticacion para processar el nuevo registro
+     * @param request
+     * @return AuthResponse
+     */
+    @PostMapping(value = "register/admin")
     public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest request) {
 
-        return ResponseEntity.ok(authService.register(request));
+        return ResponseEntity.ok(authService.registerAdmin(request));
+    }
+    
+    /**
+     * Funcion encargada de manejar las peticiones post a auth/register/user, con la finalidad de recibir el nuevo registro
+     * de un supervisor en la aplicación, hace uso del servicio de autenticacion para processar el nuevo registro
+     * @param request
+     * @return AuthResponse
+     */
+    @PostMapping("/register/user")
+    public ResponseEntity<AuthResponse> registerUser(@RequestBody RegisterRequest request){
+    	
+    	return ResponseEntity.ok(authService.registerUser(request));
     }
 
 }

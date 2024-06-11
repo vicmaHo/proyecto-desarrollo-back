@@ -12,4 +12,7 @@ import lombok.NoArgsConstructor;
 public class AuthResponse {
     
     String token;
+    
+    //Agrego el tipo de usuario 
+    String userType;
 }
