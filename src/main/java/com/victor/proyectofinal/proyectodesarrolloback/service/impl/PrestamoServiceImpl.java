@@ -40,7 +40,7 @@ public class PrestamoServiceImpl implements PrestamoService{
 			.id(prestamo.getId())
 			.fechaPrestamo(prestamo.getFechaPrestamo())
 			.fechaDevolucion(prestamo.getFechaDevolucion())
-			.valorMulta(prestamo.getValorMulta())
+			.valorMulta(prestamo.calcularMulta())
 			.libroPrestadoId(prestamo.getLibroPrestado().getId())
 			.clienteId(prestamo.getCliente().getId())
 			.build();
@@ -60,7 +60,7 @@ public class PrestamoServiceImpl implements PrestamoService{
 		.id(prestamo.getId())
 		.fechaPrestamo(prestamo.getFechaPrestamo())
 		.fechaDevolucion(prestamo.getFechaDevolucion())
-		.valorMulta(prestamo.getValorMulta())
+		.valorMulta(prestamo.calcularMulta())
 		.libroPrestadoId(prestamo.getLibroPrestado().getId())
 		.clienteId(prestamo.getCliente().getId())
 		.build();
@@ -93,7 +93,7 @@ public class PrestamoServiceImpl implements PrestamoService{
 		.id(nuevoPrestamo.getId())
 		.fechaPrestamo(nuevoPrestamo.getFechaPrestamo())
 		.fechaDevolucion(nuevoPrestamo.getFechaDevolucion())
-		.valorMulta(nuevoPrestamo.getValorMulta())
+		.valorMulta(nuevoPrestamo.calcularMulta())
 		.libroPrestadoId(nuevoPrestamo.getLibroPrestado().getId())
 		.clienteId(nuevoPrestamo.getCliente().getId())
 		.build();
@@ -116,7 +116,8 @@ public class PrestamoServiceImpl implements PrestamoService{
 		prestamo.setCliente(cliente);
 		prestamo.setFechaPrestamo(LocalDateTime.now());
 		prestamo.setFechaDevolucion(LocalDateTime.now().plusDays(15));
-		prestamo.setValorMulta(0.0);
+//		prestamo.setFechaDevolucion(LocalDateTime.now().minusDays(8)); 
+		prestamo.setValorMulta(prestamo.calcularMulta());
 		
 		// guardo el prestamo
 		Prestamo nuevoPrestamo = repository.save(prestamo);
@@ -129,13 +130,54 @@ public class PrestamoServiceImpl implements PrestamoService{
 		.id(nuevoPrestamo.getId())
 		.fechaPrestamo(nuevoPrestamo.getFechaPrestamo())
 		.fechaDevolucion(nuevoPrestamo.getFechaDevolucion())
-		.valorMulta(nuevoPrestamo.getValorMulta())
+		.valorMulta(nuevoPrestamo.calcularMulta())
 		.libroPrestadoId(nuevoPrestamo.getLibroPrestado().getId())
 		.clienteId(nuevoPrestamo.getCliente().getId())
 		.build();
 
 		return prestamoResponse;
 	}
+	
+	/**
+	 * Auxiliar para crear prestamos con fechas modificadas, a fines de introduccion de datos de prueba
+	 * con fechas anteriores y expiradas
+	 */
+	@Transactional
+	@Override
+	public PrestamoResponse registrarPrestamo(int clienteId, int libroId, 
+			LocalDateTime fechaPrestamo, LocalDateTime fechaDevolucion) {
+		
+		Prestamo prestamo = new Prestamo();
+		Libro libro = libroRepository.findById(libroId).orElse(null);
+		Cliente cliente = clienteRepository.findById(clienteId).orElse(null);
+		
+		prestamo.setLibroPrestado(libro);
+		prestamo.setCliente(cliente);
+		prestamo.setFechaPrestamo(fechaPrestamo);
+		prestamo.setFechaDevolucion(fechaDevolucion); 
+		prestamo.setValorMulta(prestamo.calcularMulta());
+		
+		// guardo el prestamo
+		Prestamo nuevoPrestamo = repository.save(prestamo);
+		
+		// modificar las copias disponibles del libro
+		libroRepository.restarCopia(libroId);
+		
+		
+		// Construyo la respuesta
+		PrestamoResponse prestamoResponse = PrestamoResponse.builder()
+				.id(nuevoPrestamo.getId())
+				.fechaPrestamo(nuevoPrestamo.getFechaPrestamo())
+				.fechaDevolucion(nuevoPrestamo.getFechaDevolucion())
+				.valorMulta(nuevoPrestamo.calcularMulta())
+				.libroPrestadoId(nuevoPrestamo.getLibroPrestado().getId())
+				.clienteId(nuevoPrestamo.getCliente().getId())
+				.build();
+
+		return prestamoResponse;
+
+	}
+	
 
 	@Override
 	public String registrarDevolucion(int prestamoId) {

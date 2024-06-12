@@ -1,5 +1,6 @@
 package com.victor.proyectofinal.proyectodesarrolloback.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.victor.proyectofinal.proyectodesarrolloback.controller.dto.PrestamoRequest;
@@ -51,6 +52,13 @@ public interface PrestamoService {
 	 * @return String
 	 */
 	String registrarDevolucion(int prestamoId);
+
+	/**
+	 * Auxiliar para crear prestamos con fechas modificadas, a fines de introduccion de datos de prueba
+	 * con fechas anteriores y expiradas
+	 */
+	PrestamoResponse registrarPrestamo(int clienteId, int libroId, LocalDateTime fechaPrestamo,
+			LocalDateTime fechaDevolucion);
 	
 	
 	

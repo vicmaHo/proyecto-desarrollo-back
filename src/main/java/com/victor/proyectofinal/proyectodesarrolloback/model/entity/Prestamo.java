@@ -2,7 +2,6 @@ package com.victor.proyectofinal.proyectodesarrolloback.model.entity;
 
 import java.time.LocalDateTime;
 
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -39,6 +38,22 @@ public class Prestamo {
 	
 	@ManyToOne// indico relacion de muchos a uno
 	private Cliente cliente;
+	
+	/**
+	 * Calcular el valor de la multa, se hace uso de la fecha actuasl y se verifica si la fecha de devolucion ya ha pasado
+	 * en dicho caso por cada dia que se ha pasado se aplica una multa de 4500
+	 * @return valorMulta
+	 */
+    public Double calcularMulta() {
+    	LocalDateTime hoy = LocalDateTime.now();
+        if (hoy.isAfter(this.fechaDevolucion)) {
+        	long diffInDays = java.time.Duration.between(this.fechaDevolucion, hoy).toDays();
+            this.valorMulta = diffInDays * 4500; // multa de 4500 por dia de retraso
+        } else {
+            this.valorMulta = 0.0;
+        }
+        return this.valorMulta;
+    }
 	
 	
 }
