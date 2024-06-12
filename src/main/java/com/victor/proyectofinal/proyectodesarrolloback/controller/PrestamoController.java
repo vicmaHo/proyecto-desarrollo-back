@@ -80,7 +80,7 @@ public class PrestamoController {
     }
 
      /**
-	 * Cuando se hace una peticion Delete al endpoint especificado /{id}, se elimina el prestamo, dando comprender
+	 * Cuando se hace una peticion Delete al endpoint especificado /{id}, se cambia el estado del prestamo, dando comprender
      * de que se realizo una devolucion del mismo
 	 * @return String(devolucion exitosa)
 	 */

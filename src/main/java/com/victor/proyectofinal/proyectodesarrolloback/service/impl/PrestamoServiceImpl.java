@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.victor.proyectofinal.proyectodesarrolloback.controller.dto.PrestamoRequest;
 import com.victor.proyectofinal.proyectodesarrolloback.controller.dto.PrestamoResponse;
 import com.victor.proyectofinal.proyectodesarrolloback.model.entity.Cliente;
+import com.victor.proyectofinal.proyectodesarrolloback.model.entity.Estado;
 import com.victor.proyectofinal.proyectodesarrolloback.model.entity.Libro;
 import com.victor.proyectofinal.proyectodesarrolloback.model.entity.Prestamo;
 import com.victor.proyectofinal.proyectodesarrolloback.model.repository.ClienteRepository;
@@ -41,6 +42,7 @@ public class PrestamoServiceImpl implements PrestamoService{
 			.fechaPrestamo(prestamo.getFechaPrestamo())
 			.fechaDevolucion(prestamo.getFechaDevolucion())
 			.valorMulta(prestamo.calcularMulta())
+			.estado(prestamo.getEstado().name()) // agrego estado
 			.libroPrestadoId(prestamo.getLibroPrestado().getId())
 			.clienteId(prestamo.getCliente().getId())
 			.build();
@@ -61,6 +63,7 @@ public class PrestamoServiceImpl implements PrestamoService{
 		.fechaPrestamo(prestamo.getFechaPrestamo())
 		.fechaDevolucion(prestamo.getFechaDevolucion())
 		.valorMulta(prestamo.calcularMulta())
+		.estado(prestamo.getEstado().name()) // agrego estado
 		.libroPrestadoId(prestamo.getLibroPrestado().getId())
 		.clienteId(prestamo.getCliente().getId())
 		.build();
@@ -119,6 +122,9 @@ public class PrestamoServiceImpl implements PrestamoService{
 //		prestamo.setFechaDevolucion(LocalDateTime.now().minusDays(8)); 
 		prestamo.setValorMulta(prestamo.calcularMulta());
 		
+		//Asigno estado pendiente a la hora de crear
+		prestamo.setEstado(Estado.PENDIENTE);
+		
 		// guardo el prestamo
 		Prestamo nuevoPrestamo = repository.save(prestamo);
 
@@ -131,6 +137,7 @@ public class PrestamoServiceImpl implements PrestamoService{
 		.fechaPrestamo(nuevoPrestamo.getFechaPrestamo())
 		.fechaDevolucion(nuevoPrestamo.getFechaDevolucion())
 		.valorMulta(nuevoPrestamo.calcularMulta())
+		.estado(prestamo.getEstado().name())
 		.libroPrestadoId(nuevoPrestamo.getLibroPrestado().getId())
 		.clienteId(nuevoPrestamo.getCliente().getId())
 		.build();
@@ -157,6 +164,8 @@ public class PrestamoServiceImpl implements PrestamoService{
 		prestamo.setFechaDevolucion(fechaDevolucion); 
 		prestamo.setValorMulta(prestamo.calcularMulta());
 		
+		prestamo.setEstado(Estado.PENDIENTE);
+		
 		// guardo el prestamo
 		Prestamo nuevoPrestamo = repository.save(prestamo);
 		
@@ -170,6 +179,7 @@ public class PrestamoServiceImpl implements PrestamoService{
 				.fechaPrestamo(nuevoPrestamo.getFechaPrestamo())
 				.fechaDevolucion(nuevoPrestamo.getFechaDevolucion())
 				.valorMulta(nuevoPrestamo.calcularMulta())
+				.estado(prestamo.getEstado().name())
 				.libroPrestadoId(nuevoPrestamo.getLibroPrestado().getId())
 				.clienteId(nuevoPrestamo.getCliente().getId())
 				.build();
@@ -182,12 +192,26 @@ public class PrestamoServiceImpl implements PrestamoService{
 	@Override
 	public String registrarDevolucion(int prestamoId) {
 		
+		
+		// Obtengo el prestamo
 		Prestamo prestamo = repository.findById(prestamoId).orElse(null);
+		//Verifico si esta devuelto
+		if(prestamo.getEstado().equals(Estado.DEVUELTO)) {
+			return "Prestamo ya duevuelto";
+		}
+		
+		// modifico la cantidad de libros disponibles
 		Libro libro = prestamo.getLibroPrestado();
-
 		libroRepository.devolverCopia(libro.getId());
 		
-		repository.deleteById(prestamoId);
+
+		// Actualizar estado a DEVUELTO
+		prestamo.setEstado(Estado.DEVUELTO);
+		
+		// guardo el prestamo
+		Prestamo prestamoActualizado = repository.save(prestamo);
+		System.out.println(prestamoActualizado.toString());
+
 		return "Prestamo registrado/eliminado";
 	}
 

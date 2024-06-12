@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -31,6 +33,10 @@ public class Prestamo {
 	private LocalDateTime fechaDevolucion;
 	
 	private double valorMulta;
+	
+	@Enumerated(EnumType.STRING)
+	@Column(nullable = false)
+	private Estado estado;
 	
 	@ManyToOne // indico relacion de muchos a uno, el prestamo tiene u nlibro y un libro pertenece a muchos prestamos
 	private Libro libroPrestado;

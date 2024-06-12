@@ -46,7 +46,7 @@ public interface PrestamoService {
 	PrestamoResponse registrarPrestamo(int clienteId, int PrestamoId);
 	
 	/**
-	 * Hace uso del repository de Prestamo para registrar la devolucion de un prestamo, lo que elimina el prestamo de la base de datos
+	 * Hace uso del repository de Prestamo para registrar la devolucion de un prestamo, lo que cambia el estado del prestamo a DEVUELTO
 	 * y se suma el libro de los librosdisponibles
 	 * @param prestamoId
 	 * @return String

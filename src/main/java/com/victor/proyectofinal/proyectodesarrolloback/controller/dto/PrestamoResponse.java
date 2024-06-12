@@ -21,6 +21,8 @@ public class PrestamoResponse {
 	
 	private double valorMulta;
 	
+	private String estado;
+	
 	//la respuesta sera solo el tipo de dato que relaciona a las entidades
 	private int libroPrestadoId;
 	
