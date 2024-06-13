@@ -119,8 +119,6 @@ public class PrestamoServiceImpl implements PrestamoService{
 		prestamo.setCliente(cliente);
 		prestamo.setFechaPrestamo(LocalDateTime.now());
 		prestamo.setFechaDevolucion(LocalDateTime.now().plusDays(15));
-//		prestamo.setFechaDevolucion(LocalDateTime.now().minusDays(8)); 
-		prestamo.setValorMulta(prestamo.calcularMulta());
 		
 		//Asigno estado pendiente a la hora de crear
 		prestamo.setEstado(Estado.PENDIENTE);
@@ -162,7 +160,6 @@ public class PrestamoServiceImpl implements PrestamoService{
 		prestamo.setCliente(cliente);
 		prestamo.setFechaPrestamo(fechaPrestamo);
 		prestamo.setFechaDevolucion(fechaDevolucion); 
-		prestamo.setValorMulta(prestamo.calcularMulta());
 		
 		prestamo.setEstado(Estado.PENDIENTE);
 		

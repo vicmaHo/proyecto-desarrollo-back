@@ -32,7 +32,7 @@ public class Prestamo {
 	@Column(columnDefinition = "TIMESTAMP")
 	private LocalDateTime fechaDevolucion;
 	
-	private double valorMulta;
+//	private double valorMulta;
 	
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
@@ -51,15 +51,19 @@ public class Prestamo {
 	 * @return valorMulta
 	 */
     public Double calcularMulta() {
+    	
+    	double valorMulta = 0.0;
     	LocalDateTime hoy = LocalDateTime.now();
-        if (hoy.isAfter(this.fechaDevolucion)) {
-        	long diffInDays = java.time.Duration.between(this.fechaDevolucion, hoy).toDays();
-            this.valorMulta = diffInDays * 4500; // multa de 4500 por dia de retraso
-        } else {
-            this.valorMulta = 0.0;
-        }
-        return this.valorMulta;
+    	
+    	if(this.estado.equals(Estado.PENDIENTE) && hoy.isAfter(this.fechaDevolucion) ) {
+    		
+            long diffInDays = java.time.Duration.between(this.fechaDevolucion, hoy).toDays();
+            valorMulta = diffInDays * 4500; // multa de 4500 por dia de retraso
+            
+    	} else {
+                valorMulta = 0.0;
+    	}
+        return valorMulta;
     }
-	
 	
 }
